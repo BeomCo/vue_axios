@@ -1,18 +1,42 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container">
+    <title :title="mainTitle" />
+    <Search />
+    <listWrap />
+    <Modal />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import axios from "axios";
+import Title from "./components/TitleCp.vue";
+import Search from "./components/SearchCp.vue";
+import ListWrap from "./components/ListWrap.vue";
+import Modal from "./components/ModalCp.vue";
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    Title,
+    Search,
+    ListWrap,
+    Modal,
+  },
+  data(){
+    return{
+      mainTitle : "푸드 하우스",
+      foods : [],
+      food : {},
+      isSelected : false,
+      searchFoods : []
+    }
+  },
+  async created() {
+    const { data } = await axios.get('/json/food.json');
+    console.log(data);
+    this.foods = data;
+    this.searchFoods = data;
+  },
 }
 </script>
 
